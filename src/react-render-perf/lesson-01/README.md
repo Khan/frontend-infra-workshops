@@ -1,0 +1,129 @@
+# 01 - Memoizing Expensive Components
+
+Memoization can be used to avoid unnecessary renders. This is most useful when
+the component itself is expensive to render (e.g. the `MathJax` component in 
+webapp) or it renders a lot of descedent components.
+
+Memoization works by saving the rendered output of the component based on the
+props that are being passed in. Often times props will appear to have changed
+when their actual values haven't. In JavaScript, two objects with the same 
+properties are considered different objects. Similarly, two functions with the
+same implementation are considered differen objects.
+
+In order for memoization to have the desired benefit, we want don't want the
+component to rerender if there are only superficial changes to props.
+
+`React.memo(Component, arePropsEqual?)` by default does a shallow comparison of
+props and as such isn't able to determine when a prop that's on object or function
+is the same or not. We can pass a custom `arePropsEqual` function to override
+that behavior. To keep things simple we use a third-party library called
+`react-fast-compare` which provides a function that does a deep comparison of
+objects.
+
+```ts
+import arePropsEqual from "react-fast-compare";
+
+type Props = {
+    user: {name: string, id: string},
+    onClick: () => void,
+}
+
+const ChildComponent = (props: Props) => {
+    // ...
+}
+
+export default React.memo(ChildComponent, arePropsEqual);
+```
+
+There is a bit of a gotcha here when it comes to props that are functions.
+`react-fast-compare` cannot check if two functions are the same. Imagine the
+following scenario:
+
+```ts
+import ChildComponent from "./child-component";
+
+type Props = {
+    user: {name: string, id: string},
+};
+
+const ParentComponent = (props: Props) => {
+    const result = useQuery(QUERY);
+
+    const handleClick = () => {
+        if (result.data) {
+            // do something with the data
+        }
+    };
+
+    return <ChildComponent user={user} onClick={handleClick}>
+}
+```
+
+Each time `ParentComponent` renders, a new copy of `handleClick` will be created
+even if the `result` from `useQuery` isn't ready yet. We only want this function
+to treated as a new function when `result` changes. React provides a hook called
+`useCallback` which does exactly that by memoizing the function.
+
+```ts
+import ChildComponent from "./my-component";
+
+type Props = {
+    user: {name: string, id: string},
+};
+
+const ParentComponent = (props: Props) => {
+    const result = useQuery(QUERY);
+
+    const handleClick = React.useCallback(() => {
+        if (result.data) {
+            // do something with the data
+        }
+    }, [result]);
+
+    return <ChildComponent user={user} onClick={handleClick}>
+}
+```
+
+If the `ParentComponent` is a class-based component, there is no need to memoize
+function props that are pre-bound methods. This is because the method never changes
+for the component instance. If the prop is an inline function though, it should be
+convered to a pre-bound method.
+
+```ts
+import ChildComponent from "./my-component";
+
+type Props = {
+    user: {name: string, id: string},
+};
+type State = {
+    result?: Result<typeof QUERY>,
+}
+
+class ParentComponent extends React.Component<Props, State> {
+    componentDidMount() {
+        fetch(QUERY).then((result) => {
+            this.setState({result});
+        });
+    }
+
+    handleClick = () => {
+        if (this.result?.data) {
+            // do something with the data
+        }
+    }
+
+    render() {   
+        return <ChildComponent user={user} onClick={handleClick}>
+    }
+}
+```
+
+**WARNING:**
+Memoization is not free. It requires memory so you should be picky when deciding
+what to memoize.
+
+| Good Candidates                            | Bad Candidates                           |
+| ------------------------------------------ | ---------------------------------------- |
+| lots of descendants                        | few descendants                          |
+| expensive to render                        | inexpensive to render                    |
+| actual values of props change infrequently | actual values of props change frequently |
