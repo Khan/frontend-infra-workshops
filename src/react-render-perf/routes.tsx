@@ -1,10 +1,9 @@
 import {BrowserRouter, Route} from "react-router-dom";
+import {JSX} from "react";
 
 import TableOfContents from "./table-of-contents";
-import Lesson1Exercise from "./lesson-01/exercise";
-import Lesson2Exercise from "./lesson-02/exercise";
-import Lesson3Exercise from "./lesson-03/exercise";
-import Lesson4Exercise from "./lesson-04/exercise";
+
+const lessons = import.meta.glob("./lesson-*/**/index.tsx", {eager: true});
 
 export default function Routes() {
     return (
@@ -12,18 +11,23 @@ export default function Routes() {
             <Route path="/react-render-perf" exact={true}>
                 <TableOfContents />
             </Route>
-            <Route path="/react-render-perf/01" exact={true}>
-                <Lesson1Exercise />
-            </Route>
-            <Route path="/react-render-perf/02" exact={true}>
-                <Lesson2Exercise />
-            </Route>
-            <Route path="/react-render-perf/03" exact={true}>
-                <Lesson3Exercise />
-            </Route>
-            <Route path="/react-render-perf/04" exact={true}>
-                <Lesson4Exercise />
-            </Route>
+            {Object.entries(lessons).map(
+                ([path, {default: Component}]: [string, any]): JSX.Element => {
+                    const base = "/react-render-perf/";
+                    return (
+                        <Route
+                            path={
+                                base +
+                                path.replace("./", "").replace("/index.tsx", "")
+                            }
+                            key={path}
+                            exact={true}
+                        >
+                            <Component />
+                        </Route>
+                    );
+                },
+            )}
         </BrowserRouter>
     );
 }

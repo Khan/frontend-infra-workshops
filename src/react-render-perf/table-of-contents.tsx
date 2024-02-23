@@ -5,28 +5,68 @@ export default function ReactRenderPerf() {
         <>
             <Link to="/">Home</Link>
             <h1>React Render Perf</h1>
-            <ul>
+            <ol>
                 <li>
-                    <Link to="/react-render-perf/01">
-                        01 - Memoizing Expensive Components
-                    </Link>
+                    Memoizing Expensive Components
+                    <ul>
+                        <li>
+                            <Link to="/react-render-perf/lesson-01/exercise">
+                                Exercise
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/react-render-perf/lesson-01/solution">
+                                Solution
+                            </Link>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    <Link to="/react-render-perf/02">
-                        02 - Prevent Context From Rendering
-                    </Link>
+                    Prevent Context From Rendering - TODO
+                    <ul>
+                        <li>
+                            <Link to="/react-render-perf/lesson-02/exercise">
+                                Exercise
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/react-render-perf/lesson-02/solution">
+                                Solution
+                            </Link>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    <Link to="/react-render-perf/03">
-                        03 - Avoid Using Context
-                    </Link>
+                    Avoid Using Context - TODO
+                    <ul>
+                        <li>
+                            <Link to="/react-render-perf/lesson-03/exercise">
+                                Exercise
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/react-render-perf/lesson-03/solution">
+                                Solution
+                            </Link>
+                        </li>
+                    </ul>
                 </li>
                 <li>
-                    <Link to="/react-render-perf/04">
-                        04 - Splitting Up Large Components
-                    </Link>
+                    Splitting Up Large Components - TODO
+                    <ul>
+                        <li>
+                            <Link to="/react-render-perf/lesson-04/exercise">
+                                Exercise
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/react-render-perf/lesson-04/solution">
+                                Solution
+                            </Link>
+                        </li>
+                    </ul>
                 </li>
-            </ul>
+            </ol>
         </>
     );
 }

@@ -127,3 +127,9 @@ what to memoize.
 | lots of descendants                        | few descendants                          |
 | expensive to render                        | inexpensive to render                    |
 | actual values of props change infrequently | actual values of props change frequently |
+
+## Exercise
+
+1. Use the profiler in React dev tools to measure the render performance of the code in the "exercise" folder.
+2. Update the code in the "exercise" folder memoize the `Child` component to avoid rerender this component.
+3. Use the profiler in React dev tools to measure the render performance again
