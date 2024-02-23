@@ -7,12 +7,16 @@ export default function Solution1() {
     const handleClick = useCallback(() => {
         setCount((count) => count + 1);
     }, []);
+    const circle = {
+        radius: 10,
+        center: {x: 10, y: 10},
+    };
 
     return (
         <div>
             <h1>Solution 1: Memoizing Expensive Components</h1>
             <p>Count: {count}</p>
-            <ChildComponent onClick={handleClick} />
+            <ChildComponent onClick={handleClick} circle={circle} />
         </div>
     );
 }

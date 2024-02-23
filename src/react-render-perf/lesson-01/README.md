@@ -1,3 +1,5 @@
+[Home](../README.md)
+
 # 01 - Memoizing Expensive Components
 
 Memoization can be used to avoid unnecessary renders. This is most useful when
