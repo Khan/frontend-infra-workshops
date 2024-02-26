@@ -1,12 +1,13 @@
-import {useState} from "react";
+import {useState, memo} from "react";
 
 import {fib} from "../../shared/fib";
 
 type Props = {
     n: number;
+    color: string;
 };
 
-export function Circle({n}: Props) {
+export const Circle = memo(({n, color}: Props) => {
     const [count, setCount] = useState(0);
 
     return (
@@ -19,8 +20,8 @@ export function Circle({n}: Props) {
                 Click me! ({count})
             </button>
             <svg width={160} height={160} viewBox="0,0,160,160">
-                <circle fill="red" r={50} cx={80} cy={80} />
+                <circle fill={color} r={50} cx={80} cy={80} />
             </svg>
         </>
     );
-}
+});

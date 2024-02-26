@@ -1,12 +1,13 @@
-import {useState} from "react";
+import {useState, memo} from "react";
 
 import {fib} from "../../shared/fib";
 
 type Props = {
     n: number;
+    color: string;
 };
 
-export function Triangle({n}: Props) {
+export const Triangle = memo(({n, color}: Props) => {
     const [count, setCount] = useState(0);
 
     return (
@@ -19,8 +20,8 @@ export function Triangle({n}: Props) {
                 Click me! ({count})
             </button>
             <svg width={160} height={160} viewBox="0,0,160,160">
-                <path fill="green" d="M20,20L20,120L120,120Z" />
+                <path fill={color} d="M20,20L20,120L120,120Z" />
             </svg>
         </>
     );
-}
+});
