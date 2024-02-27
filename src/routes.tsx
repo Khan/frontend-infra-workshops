@@ -1,6 +1,6 @@
 import {BrowserRouter, Route} from "react-router-dom";
 
-import ReactRenderPerf from "./react-render-perf";
+import ReactRenderPerfRoutes from "./react-render-perf/routes";
 import Homepage from "./homepage";
 
 export default function Routes() {
@@ -9,8 +9,8 @@ export default function Routes() {
             <Route path="/" exact={true}>
                 <Homepage />
             </Route>
-            <Route path="/react-render-perf" exact={true}>
-                <ReactRenderPerf />
+            <Route path="/react-render-perf" exact={false}>
+                <ReactRenderPerfRoutes />
             </Route>
         </BrowserRouter>
     );
