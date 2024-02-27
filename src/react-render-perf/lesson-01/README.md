@@ -88,8 +88,9 @@ const ParentComponent = (props: Props) => {
 
 If the `ParentComponent` is a class-based component, there is no need to memoize
 function props that are pre-bound methods. This is because the method never changes
-for the component instance. If the prop is an inline function though, it should be
-convered to a pre-bound method.
+for the component instance. If the prop is an inline function though, e.g. 
+`onClick={() => { ... }}` it should be convered to a pre-bound method, see the
+example below.
 
 ```ts
 import ChildComponent from "./my-component";
@@ -108,6 +109,7 @@ class ParentComponent extends React.Component<Props, State> {
         });
     }
 
+    // pre-bound method
     handleClick = () => {
         if (this.result?.data) {
             // do something with the data
