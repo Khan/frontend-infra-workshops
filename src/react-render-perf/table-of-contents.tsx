@@ -22,7 +22,7 @@ export default function ReactRenderPerf() {
                     </ul>
                 </li>
                 <li>
-                    Prevent Context From Rendering - TODO
+                    Prevent Context From Rendering
                     <ul>
                         <li>
                             <Link to="/react-render-perf/lesson-02/exercise">
@@ -52,7 +52,7 @@ export default function ReactRenderPerf() {
                     </ul>
                 </li>
                 <li>
-                    Splitting Up Large Components - TODO
+                    Splitting Up Large Components
                     <ul>
                         <li>
                             <Link to="/react-render-perf/lesson-04/exercise">

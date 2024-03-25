@@ -19,7 +19,7 @@ will be spread out across multiple children so when one of them changes only one
 the children will re-render.
 
 Additionally, we can memoize some or all of the new child components if we want to
-prevent them from re-rendering in response props changes.
+prevent them from re-rendering in response to props changes.
 
 ## Example
 
@@ -29,24 +29,32 @@ the whole component to re-render.
 ```tsx
 import {useState} from "react";
 
+import {expensiveComputation} from "./expensive-computation";
+
 const LargeComponent = () => {
     const [foo, setFoo] = useState<number>(0);
     const [bar, setBar] = useState<number>(0);
 
-    const foo = <>
-        <h1>foo = {foo}</h1>
-        <button onClick={incrementFoo}>increment foo</button>
-    </>;
+    const renderFoo = () => {
+        expensiveComputation();
+        return <>
+            <h1>foo = {foo}</h1>
+            <button onClick={incrementFoo}>increment foo</button>
+        </>;
+    };
 
-    const bar = <>
-        <h1>bar = {bar}</h1>
-        <button onClick={incrementBar}>increment bar</button>
-    </>;
+    const renderBar = () => {
+        expensiveComputation();
+        return <>
+            <h1>bar = {bar}</h1>
+            <button onClick={incrementBar}>increment bar</button>
+        </>;
+    };
 
     return <>
         <h1>LargeComponent</h1>
-        {foo}
-        {bar}
+        {renderFoo()}
+        {renderBar()}
     </>
 }
 ```
@@ -54,27 +62,40 @@ const LargeComponent = () => {
 Extracting components `Foo` and `Bar` allows those components to update and
 re-render indepedently of each other.
 
-
 ```tsx
+// foo.tsx
 import {useState} from "react";
+import {expensiveComputation} from "./expensive-computation";
 
-const Foo = () => {
+export default function Foo() {
     const [foo, setFoo] = useState<number>(0);
 
-    const foo = <>
+    expensiveComputation();
+
+    return = <>
         <h1>foo = {foo}</h1>
         <button onClick={incrementFoo}>increment foo</button>
     </>;
 }
 
-const Bar = () => {
+// bar.tsx
+import {useState} from "react";
+import {expensiveComputation} from "./expensive-computation";
+
+export default function Bar() {
     const [bar, setBar] = useState<number>(0);
 
-    const bar = <>
+    expensiveComputation();
+
+    return = <>
         <h1>bar = {bar}</h1>
         <button onClick={incrementBar}>increment bar</button>
     </>;
 }
+
+// parent.tsx
+import Foo from "./foo";
+import Bar from "./bar";
 
 const ParentComponent = () => {
     return <>
@@ -100,3 +121,56 @@ const ParentComponent = () => {
    multiple child components.
 3. Memoize components as necessary to address remaining render performance issues.
 4. Use the profiler in React dev tools to measure the render performance again.
+
+## Bonus - Mocking child components
+
+The following pattern can be quite useful when writing jest tests for large components
+that render a number of subcomponents.  The subcomponents can be mocked with module
+mocks to return simple strings that are easy to find using `@testing-library/react`'s 
+`screen.findByText()`.
+
+```ts
+import {render, screen} from "@testing-library/react";
+import {Parent} from "./parent";
+
+jest.mock("./foo", ({
+    __esModule: true,
+    default: () => "Foo",
+});
+
+describe("Parent", () => {
+    it("should render 'Foo'", async() => {
+        // Arrange
+
+        // Act
+        render(<Parent />);
+
+        // Assert
+        const foo = await screen.findByText("Foo");
+        expect(foo).toBeInTheDocument();
+    });
+});
+```
+
+If you want to verify that certain props were passed to a component you can use this pattern:
+
+```ts
+import {render, screen} from "@testing-library/react";
+import {Parent} from "./parent";
+import * as Bar from "./bar";
+
+describe("Parent", () => {
+    it("should render the child component", () => {
+        // Arrange
+        const barSpy = jest.spyOn(Bar, "default").mockReturnValue(<div />);
+
+        // Act
+        render(<Parent />);
+
+        // Assert
+        expect(barSpy).toHaveBeenCalledWith({msg: "hello, world!"}, {});
+    });
+});
+```
+
+NOTE: The extra `{}` in the call to `toHaveBeenCalledWith` is necessary.
