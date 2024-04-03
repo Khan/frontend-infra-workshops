@@ -1,6 +1,6 @@
 import {EventEmitter} from "eventemitter3";
 
-export class ColorPickerEventEmitter extends EventEmitter {
+class ColorPickerEventEmitter extends EventEmitter {
     selectedColor: string | undefined;
 
     public onColorChange(
