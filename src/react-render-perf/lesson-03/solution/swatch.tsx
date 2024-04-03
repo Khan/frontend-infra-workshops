@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 import {Color, toCssColor} from "../../shared/color";
 import {colorPickerEventEmitter} from "./color-picker-event-emitter";
@@ -11,7 +11,12 @@ type Props = {
 export function Swatch({color, size}: Props) {
     const [isSelected, setIsSelected] = useState(false);
 
-    colorPickerEventEmitter.onColorChange(toCssColor(color), setIsSelected);
+    useEffect(() => {
+        return colorPickerEventEmitter.onColorChange(
+            toCssColor(color),
+            setIsSelected,
+        );
+    }, [color]);
 
     return (
         <div

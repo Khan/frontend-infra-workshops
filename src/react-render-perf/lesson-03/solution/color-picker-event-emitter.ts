@@ -3,8 +3,12 @@ import {EventEmitter} from "eventemitter3";
 class ColorPickerEventEmitter extends EventEmitter {
     selectedColor: string | undefined;
 
-    public onColorChange(color: string, callback: (state: boolean) => void) {
+    public onColorChange(
+        color: string,
+        callback: (state: boolean) => void,
+    ): () => void {
         this.on(color, callback);
+        return () => this.off(color, callback);
     }
 
     public onSelectedColorChange(callback: (selectedColor: string) => void) {

@@ -6,6 +6,19 @@ If your context contains an event emitter (or other class instance) and it's onl
 used once in your application, you can simplify things even further by using a
 singleton instance of it.
 
+While singletons are often frowned upon, their use in this scenario offers several
+benefits over React Context:
+
+- By default Context will often result in unnecessary re-renders while using a
+  singleton will not.
+- Context is only available in React so if other code needs access to that data
+  we need to figure out some way to pipe that data to that code whereas with a
+  singleton, that code can just import it.
+- Testing components that use React Context require wrapper the component in an
+  appropriate provider which isn't that bad on its own but often times you'll need
+  to update the value in the Context.  Updates are easier with a singleton.  The
+  only thing we need is a way to reset the singleton before each test.
+
 ## Example
 
 Using our example from [Lesson 2](../lesson-02/README.md) we can replace the context
