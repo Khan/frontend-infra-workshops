@@ -23,7 +23,9 @@ export function Grid({
         const start = lerpColor(topLeft, bottomLeft, i / steps);
         const stop = lerpColor(topRight, bottomRight, i / steps);
         const key = `${toCssColor(start)}-${toCssColor(stop)}`;
-        gradients.push(<Gradient key={key} start={start} stop={stop} steps={steps} />);
+        gradients.push(
+            <Gradient key={key} start={start} stop={stop} steps={steps} />,
+        );
     }
 
     return (

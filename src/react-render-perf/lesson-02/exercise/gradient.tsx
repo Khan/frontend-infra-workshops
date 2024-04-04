@@ -13,7 +13,9 @@ export function Gradient({start, stop, steps}: Props) {
     const swatches: Array<ReactElement<typeof Swatch>> = [];
     for (let i = 0; i < steps; i++) {
         const color = lerpColor(start, stop, i / steps);
-        swatches.push(<Swatch key={toCssColor(color)} color={color} size={512 / steps} />);
+        swatches.push(
+            <Swatch key={toCssColor(color)} color={color} size={512 / steps} />,
+        );
     }
 
     return (
