@@ -1,4 +1,6 @@
-[Home](../README.md)
+import {Link} from "react-router-dom";
+
+<Link to="/react-render-perf">Home</Link>
 
 # 02 - Prevent Context From Re-rendering
 
@@ -15,7 +17,7 @@ In the following example, everytime we update the `value` in the context, we
 re-render both child components of the context even though only one of them
 needs to be update.
 
-```tsx
+```tsx filename="index.tsx"
 import {createContext, useContext, useState} from "react";
 
 type FooBar = {
