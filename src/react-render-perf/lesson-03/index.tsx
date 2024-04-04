@@ -2,7 +2,7 @@ import {Link} from "react-router-dom";
 
 import {code} from "../shared/code";
 import Tabs from "../shared/tabs";
-import * as styles from "../shared/index.module.css";
+import styles from "../shared/index.module.css";
 
 import Content from "./content.mdx";
 import Exercise from "./exercise/index";

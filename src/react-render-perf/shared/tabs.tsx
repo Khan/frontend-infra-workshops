@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import * as styles from "../shared/index.module.css";
+import styles from "../shared/index.module.css";
 
 type Tab = "exercise" | "solution";
 
