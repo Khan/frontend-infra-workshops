@@ -1,7 +1,7 @@
 import {ReactElement} from "react";
 
 import {Gradient} from "./gradient";
-import {Color, lerpColor} from "../../shared/color";
+import {Color, lerpColor, toCssColor} from "../../shared/color";
 
 type Props = {
     topLeft: Color;
@@ -22,7 +22,8 @@ export function Grid({
     for (let i = 0; i < steps; i++) {
         const start = lerpColor(topLeft, bottomLeft, i / steps);
         const stop = lerpColor(topRight, bottomRight, i / steps);
-        gradients.push(<Gradient start={start} stop={stop} steps={steps} />);
+        const key = `${toCssColor(start)}-${toCssColor(stop)}`;
+        gradients.push(<Gradient key={key} start={start} stop={stop} steps={steps} />);
     }
 
     return (

@@ -14,7 +14,6 @@ export default function Solution1() {
 
     return (
         <div>
-            <h1>Solution 1: Memoizing Expensive Components</h1>
             <p>Count: {count}</p>
             <ChildComponent onClick={handleClick} circle={circle} />
         </div>

@@ -14,7 +14,6 @@ export default function Exercise1() {
 
     return (
         <div>
-            <h1>Exercise 1: Memoizing Expensive Components</h1>
             <p>Count: {count}</p>
             <ChildComponent onClick={handleClick} circle={circle} />
         </div>

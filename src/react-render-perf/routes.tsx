@@ -1,12 +1,10 @@
 import {BrowserRouter, Route} from "react-router-dom";
-import {Prism as SyntaxHighlighter} from "react-syntax-highlighter";
-import * as React from "react";
 
-import TableOfContents from "./README.mdx";
-import Lesson01 from "./lesson-01/README.mdx";
-import Lesson02 from "./lesson-02/README.mdx";
-import Lesson03 from "./lesson-03/README.mdx";
-import Lesson04 from "./lesson-04/README.mdx";
+import TableOfContents from "./index.mdx";
+import Lesson01 from "./lesson-01/index";
+import Lesson02 from "./lesson-02/index";
+import Lesson03 from "./lesson-03/index";
+import Lesson04 from "./lesson-04/index";
 
 export default function Routes() {
     return (
@@ -15,30 +13,17 @@ export default function Routes() {
                 <TableOfContents />
             </Route>
             <Route path="/react-render-perf/lesson-01" exact={true}>
-                <Lesson01 components={{code}} />
+                <Lesson01 />
             </Route>
             <Route path="/react-render-perf/lesson-02" exact={true}>
-                <Lesson02 components={{code}} />
+                <Lesson02 />
             </Route>
             <Route path="/react-render-perf/lesson-03" exact={true}>
-                <Lesson03 components={{code}} />
+                <Lesson03 />
             </Route>
             <Route path="/react-render-perf/lesson-04" exact={true}>
-                <Lesson04 components={{code}} />
+                <Lesson04 />
             </Route>
         </BrowserRouter>
     );
 }
-
-const code: React.FC<
-    React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>
-> = ({children, className, ...properties}) => {
-    return className ? (
-        // @ts-expect-error: the types for `children` are incompatible
-        <SyntaxHighlighter language="tsx" {...properties}>
-            {children}
-        </SyntaxHighlighter>
-    ) : (
-        <span style={{fontFamily: "monospace"}}>children</span>
-    );
-};
