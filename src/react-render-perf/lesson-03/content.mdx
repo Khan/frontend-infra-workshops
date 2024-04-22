@@ -1,7 +1,3 @@
-[Home](../README.md)
-
-# 03 - Avoid Using Context
-
 If your context contains an event emitter (or other class instance) and it's only 
 used once in your application, you can simplify things even further by using a
 singleton instance of it.
@@ -21,7 +17,7 @@ benefits over React Context:
 
 ## Example
 
-Using our example from [Lesson 2](../lesson-02/README.md) we can replace the context
+Using our example from [Lesson 2](/react-render-perf/lesson-02) we can replace the context
 by creating a `EventEmitter` singleton and using it directly in our components.
 
 ```tsx

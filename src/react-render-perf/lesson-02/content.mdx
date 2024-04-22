@@ -1,7 +1,3 @@
-[Home](../README.md)
-
-# 02 - Prevent Context From Re-rendering
-
 React Context is useful for sharing data with its descendent components. When
 changes are made to the context, this causes the context and all of its
 descendents to be re-rendered. If the number of descendents is large, this can
@@ -15,7 +11,7 @@ In the following example, everytime we update the `value` in the context, we
 re-render both child components of the context even though only one of them
 needs to be update.
 
-```tsx
+```tsx filename="index.tsx"
 import {createContext, useContext, useState} from "react";
 
 type FooBar = {
