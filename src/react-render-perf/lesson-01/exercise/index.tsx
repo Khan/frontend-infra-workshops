@@ -1,12 +1,12 @@
-import {useState} from "react";
+import {useState, useCallback} from "react";
 
 import {ChildComponent} from "./child";
 
 export default function Exercise1() {
     const [count, setCount] = useState(0);
-    const handleClick = () => {
+    const handleClick = useCallback(() => {
         setCount((count) => count + 1);
-    };
+    }, []);
     const circle = {
         radius: 10,
         center: {x: 10, y: 10},

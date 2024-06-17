@@ -1,3 +1,5 @@
+import React from "react";
+import arePropsEqual from "react-fast-compare";
 import {fib} from "../../shared/fib";
 import {Circle} from "../../shared/shapes";
 
@@ -6,7 +8,7 @@ type Props = {
     onClick: () => void;
 };
 
-export function ChildComponent({circle, onClick}: Props) {
+function _ChildComponent({circle, onClick}: Props) {
     return (
         <div>
             <h1>Child Component</h1>
@@ -22,3 +24,5 @@ export function ChildComponent({circle, onClick}: Props) {
         </div>
     );
 }
+
+export const ChildComponent = React.memo(_ChildComponent, arePropsEqual);
