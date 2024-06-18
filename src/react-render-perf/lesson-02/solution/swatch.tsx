@@ -9,6 +9,7 @@ type Props = {
 };
 
 export function Swatch({color, size}: Props) {
+    console.log("swatch");
     const colorPickerEventEmitter = useContext(ColorPickerContext)!;
     const [isSelected, setIsSelected] = useState(false);
 

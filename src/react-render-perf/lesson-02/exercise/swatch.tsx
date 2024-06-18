@@ -1,4 +1,4 @@
-import {useContext} from "react";
+import {useContext, useState} from "react";
 
 import {Color, toCssColor} from "../../shared/color";
 import {ColorPickerContext} from "./color-picker-context";
@@ -9,13 +9,20 @@ type Props = {
 };
 
 export function Swatch({color, size}: Props) {
-    const {setColor, color: selectedColor} = useContext(ColorPickerContext)!;
+    console.log("swatch");
+    const emitter = useContext(ColorPickerContext);
+    const [isSelected, setIsSelected] = useState(false);
 
-    const isSelected =
-        selectedColor &&
-        selectedColor.red === color.red &&
-        selectedColor.green === color.green &&
-        selectedColor.blue === color.blue;
+    const handleClick = () => {
+        setIsSelected(true);
+        emitter?.emit("color", color);
+    };
+
+    emitter?.on("color", (selectedColor) => {
+        if (toCssColor(selectedColor) !== toCssColor(color)) {
+            setIsSelected(false);
+        }
+    });
 
     return (
         <div
@@ -26,7 +33,7 @@ export function Swatch({color, size}: Props) {
                 boxSizing: "border-box",
                 border: isSelected ? "1px solid black" : "none",
             }}
-            onClick={() => setColor(color)}
+            onClick={handleClick}
         />
     );
 }

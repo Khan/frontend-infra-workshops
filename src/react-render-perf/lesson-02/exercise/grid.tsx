@@ -1,4 +1,5 @@
-import {ReactElement} from "react";
+import {ReactElement, memo} from "react";
+import arePropsEqual from "react-fast-compare";
 
 import {Gradient} from "./gradient";
 import {Color, lerpColor, toCssColor} from "../../shared/color";
@@ -11,13 +12,14 @@ type Props = {
     steps: number;
 };
 
-export function Grid({
+export const Grid = memo(function _Grid({
     topLeft,
     topRight,
     bottomLeft,
     bottomRight,
     steps,
 }: Props) {
+    console.log("Grid");
     const gradients: Array<ReactElement<typeof Gradient>> = [];
     for (let i = 0; i < steps; i++) {
         const start = lerpColor(topLeft, bottomLeft, i / steps);
@@ -33,4 +35,4 @@ export function Grid({
             {gradients}
         </div>
     );
-}
+}, arePropsEqual);
