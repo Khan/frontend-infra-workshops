@@ -1,4 +1,4 @@
-If your context contains an event emitter (or other class instance) and it's only 
+If your context contains an event emitter (or other class instance) and it's only
 used once in your application, you can simplify things even further by using a
 singleton instance of it.
 
@@ -10,7 +10,7 @@ benefits over React Context:
 - Context is only available in React so if other code needs access to that data
   we need to figure out some way to pipe that data to that code whereas with a
   singleton, that code can just import it.
-- Testing components that use React Context require wrapper the component in an
+- Testing components that use React Context require wrapping the component in an
   appropriate provider which isn't that bad on its own but often times you'll need
   to update the value in the Context.  Updates are easier with a singleton.  The
   only thing we need is a way to reset the singleton before each test.
@@ -18,7 +18,7 @@ benefits over React Context:
 ## Example
 
 Using our example from [Lesson 2](/react-render-perf/lesson-02) we can replace the context
-by creating a `EventEmitter` singleton and using it directly in our components.
+by creating an `EventEmitter` singleton and using it directly in our components.
 
 ```tsx
 import {createContext, useContext, useState, useMemo} from "react";
