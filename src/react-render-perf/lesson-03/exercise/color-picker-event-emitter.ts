@@ -24,3 +24,5 @@ export class ColorPickerEventEmitter extends EventEmitter {
         this.selectedColor = color;
     }
 }
+
+export const colorPickerEventEmitter = new ColorPickerEventEmitter();
