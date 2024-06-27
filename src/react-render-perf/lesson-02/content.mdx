@@ -4,12 +4,12 @@ descendents to be re-rendered. If the number of descendents is large, this can
 result in poor rendering performance.
 
 In order to avoid re-rendering all of the descendents we'd like only those
-components using the context to re-render.  Ideally, the should only re-render
+components using the context to re-render.  Ideally, they should only re-render
 if the data that they're making use of changes.
 
 In the following example, everytime we update the `value` in the context, we
 re-render both child components of the context even though only one of them
-needs to be update.
+needs to be updated.
 
 ```tsx filename="index.tsx"
 import {createContext, useContext, useState} from "react";
@@ -34,7 +34,7 @@ const Bar = () => {
 const Parent = () => {
     const [value, setValue] = useState<FooBar>({foo: 0, bar: 0});
     const incrementFoo = () => setValue(fb => {...fb, foo: fb.foo + 1});
-    const incrementBar = () => setValue(fb => {...fb, foo: fb.foo + 1});
+    const incrementBar = () => setValue(fb => {...fb, bar: fb.bar + 1});
     <>
         <FooBarContext.Provider value={value}>
             <Foo/>
@@ -92,7 +92,7 @@ const Parent = () => {
     }
 
     <>
-        <FooBarContext.Provider value={value}>
+        <FooBarContext.Provider value={emitter}>
             <Foo/>
             <Bar/>
         </FooBarContext.Provider>
@@ -110,6 +110,7 @@ props so this is trivial to do.
 
 ```tsx
 import {createContext, useContext, useState, memo} from "react";
+import arePropsEqual from "react-fast-compare";
 
 const Foo = memo(() => {
     const emitter = useContext(FooBarContext);
@@ -117,7 +118,7 @@ const Foo = memo(() => {
     emitter?.on("foo", setFoo);
 
     return <h1>foo = {foo}</h1>;
-});
+}, arePropsEqual);
 
 const Bar = memo(() => {
     const emitter = useContext(FooBarContext);
@@ -125,7 +126,7 @@ const Bar = memo(() => {
     emitter?.on("bar", setBar);
 
     return <h1>bar = {bar}</h1>;
-});
+}, arePropsEqual);
 ```
 
 ## Exercise

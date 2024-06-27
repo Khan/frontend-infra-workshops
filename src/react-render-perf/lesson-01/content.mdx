@@ -1,18 +1,18 @@
 Memoization can be used to avoid unnecessary renders. This is most useful when
-the component itself is expensive to render (e.g. the `MathJax` component in 
+the component itself is expensive to render (e.g. the `MathJax` component in
 webapp) or it renders a lot of descedent components.
 
 Memoization works by saving the rendered output of the component based on the
 props that are being passed in. Often times props will appear to have changed
-when their actual values haven't. In JavaScript, two objects with the same 
+when their actual values haven't. In JavaScript, two objects with the same
 properties are considered different objects. Similarly, two functions with the
 same implementation are considered differen objects.
 
-In order for memoization to have the desired benefit, we want don't want the
+In order for memoization to have the desired benefit, we don't want the
 component to rerender if there are only superficial changes to props.
 
 `React.memo(Component, arePropsEqual?)` by default does a shallow comparison of
-props and as such isn't able to determine when a prop that's on object or function
+props and as such isn't able to determine when a prop that's an object or function
 is the same or not. We can pass a custom `arePropsEqual` function to override
 that behavior. To keep things simple we use a third-party library called
 `react-fast-compare` which provides a function that does a deep comparison of
@@ -53,7 +53,7 @@ const ParentComponent = (props: Props) => {
         }
     };
 
-    return <ChildComponent user={user} onClick={handleClick}>
+    return <ChildComponent user={props.user} onClick={handleClick}>
 }
 ```
 
@@ -84,8 +84,8 @@ const ParentComponent = (props: Props) => {
 
 If the `ParentComponent` is a class-based component, there is no need to memoize
 function props that are pre-bound methods. This is because the method never changes
-for the component instance. If the prop is an inline function though, e.g. 
-`onClick={() => { ... }}` it should be convered to a pre-bound method, see the
+for the component instance. If the prop is an inline function though, e.g.
+`onClick={() => { ... }}` it should be converted to a pre-bound method, see the
 example below.
 
 ```ts
@@ -112,7 +112,7 @@ class ParentComponent extends React.Component<Props, State> {
         }
     }
 
-    render() {   
+    render() {
         return <ChildComponent user={user} onClick={handleClick}>
     }
 }
