@@ -1,7 +1,8 @@
-import {useState} from "react";
+import {memo, useState} from "react";
+import arePropsEqual from "react-fast-compare";
 import {fib} from "../../shared/fib";
 
-export const Triangle = ({n, color}: {n: number; color: string}) => {
+export const Triangle = memo(({n, color}: {n: number; color: string}) => {
     const [triangleCount, setTriangleCount] = useState(0);
 
     return (
@@ -18,4 +19,4 @@ export const Triangle = ({n, color}: {n: number; color: string}) => {
             </svg>
         </>
     );
-};
+}, arePropsEqual);

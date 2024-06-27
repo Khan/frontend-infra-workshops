@@ -1,7 +1,8 @@
-import {useState} from "react";
+import {memo, useState} from "react";
+import arePropsEqual from "react-fast-compare";
 import {fib} from "../../shared/fib";
 
-export const Square = ({n, color}: {n: number; color: string}) => {
+export const Square = memo(({n, color}: {n: number; color: string}) => {
     const [squareCount, setSquareCount] = useState(0);
     return (
         <>
@@ -17,4 +18,4 @@ export const Square = ({n, color}: {n: number; color: string}) => {
             </svg>
         </>
     );
-};
+}, arePropsEqual);

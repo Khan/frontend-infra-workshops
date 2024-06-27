@@ -1,7 +1,8 @@
-import {useState} from "react";
+import {useState, memo} from "react";
+import arePropsEqual from "react-fast-compare";
 import {fib} from "../../shared/fib";
 
-export const Circle = (props: {n: number; color: string}) => {
+export const Circle = memo((props: {n: number; color: string}) => {
     const [circleCount, setCircleCount] = useState(0);
     return (
         <>
@@ -17,4 +18,4 @@ export const Circle = (props: {n: number; color: string}) => {
             </svg>
         </>
     );
-};
+}, arePropsEqual);
