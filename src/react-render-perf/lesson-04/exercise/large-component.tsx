@@ -1,6 +1,8 @@
 import {useState} from "react";
 
-import {fib} from "../../shared/fib";
+import {Circle} from "./circle";
+import {Triangle} from "./triangle";
+import {Square} from "./square";
 
 type Shape = "circle" | "triangle" | "square";
 
@@ -13,62 +15,7 @@ export function LargeComponent() {
         square: "blue",
     });
 
-    const [circleCount, setCircleCount] = useState(0);
-    const [triangleCount, setTriangleCount] = useState(0);
-    const [squareCount, setSquareCount] = useState(0);
-
     const n = 35;
-
-    const circle = (
-        <>
-            <h2>Circle</h2>
-            <p>
-                fib({n}) = {fib(n)}
-            </p>
-            <button onClick={() => setCircleCount((count) => count + 1)}>
-                Click me! ({circleCount})
-            </button>
-            <svg width={160} height={160} viewBox="0,0,160,160">
-                <circle fill={colors.circle} r={50} cx={80} cy={80} />
-            </svg>
-        </>
-    );
-
-    const triangle = (
-        <>
-            <h2>Triangle</h2>
-            <p>
-                fib({n}) = {fib(n)}
-            </p>
-            <button onClick={() => setTriangleCount((count) => count + 1)}>
-                Click me! ({triangleCount})
-            </button>
-            <svg width={160} height={160} viewBox="0,0,160,160">
-                <path fill={colors.triangle} d="M20,20L20,120L120,120Z" />
-            </svg>
-        </>
-    );
-
-    const square = (
-        <>
-            <h2>Square</h2>
-            <p>
-                fib({n}) = {fib(n)}
-            </p>
-            <button onClick={() => setSquareCount((count) => count + 1)}>
-                Click me! ({squareCount})
-            </button>
-            <svg width={160} height={160} viewBox="0,0,160,160">
-                <rect
-                    fill={colors.square}
-                    x={20}
-                    y={20}
-                    width={120}
-                    height={120}
-                />
-            </svg>
-        </>
-    );
 
     const handleShapeChange = (shape: Shape) => {
         setSelectedShape(shape);
@@ -102,9 +49,9 @@ export function LargeComponent() {
                 <option value="green">Green</option>
                 <option value="blue">Blue</option>
             </select>
-            {circle}
-            {triangle}
-            {square}
+            <Circle n={n} color={colors.circle} />
+            <Triangle n={n} color={colors.triangle} />
+            <Square n={n} color={colors.square} />
         </div>
     );
 }
