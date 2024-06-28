@@ -7,7 +7,7 @@ In order to avoid re-rendering all of the descendents we'd like only those
 components using the context to re-render.  Ideally, they should only re-render
 if the data that they're making use of changes.
 
-In the following example, everytime we update the `value` in the context, we
+In the following example, everytime we update the <code>value</code> in the context, we
 re-render both child components of the context even though only one of them
 needs to be updated.
 
@@ -47,13 +47,13 @@ const Parent = () => {
 ```
 
 To avoid this problem we can replace the plain old JavaScript object being
-used for the context's `value` with a event emitter instance. The instance is
-only created once and is never replaced so the `value` never changes which
+used for the context's <code>value</code> with a event emitter instance. The instance is
+only created once and is never replaced so the <code>value</code> never changes which
 means that the context will never trigger a re-render.
 
 The child components will register event listeners for changes to only the
 data they care about. The parent component will emit the appropriate event when
-increment the values for `foo` and `bar`.
+increment the values for <code>foo</code> and <code>bar</code>.
 
 ```tsx
 import {createContext, useContext, useState, useMemo} from "react";
@@ -102,10 +102,10 @@ const Parent = () => {
 };
 ```
 
-This is necessary but not sufficient to prevent both `Foo` and `Bar` from
-re-rendering when either `foo` or `bar` is incremented. That's because
-`Parent` is re-rendering when its state changes. To avoid this issue we also
-need to memoize `Foo` and `Bar` themselves. Thankfully they don't take any
+This is necessary but not sufficient to prevent both <code>Foo</code> and <code>Bar</code> from
+re-rendering when either <code>foo</code> or <code>bar</code> is incremented. That's because
+<code>Parent</code> is re-rendering when its state changes. To avoid this issue we also
+need to memoize <code>Foo</code> and <code>Bar</code> themselves. Thankfully they don't take any
 props so this is trivial to do.
 
 ```tsx
@@ -133,7 +133,7 @@ const Bar = memo(() => {
 
 1. Use the profiler in React dev tools to measure the render performance of the
 code in the "exercise" folder.
-2. Update the code in the "exercise" folder to use an `EventEmitter` to prevent
-the `value` in the context provider from changing.
+2. Update the code in the "exercise" folder to use an <code>EventEmitter</code> to prevent
+the <code>value</code> in the context provider from changing.
 3. Memoize only the necessary components to prevent unecessary re-renders.
 4. Use the profiler in React dev tools to measure the render performance again.

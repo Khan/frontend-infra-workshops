@@ -18,7 +18,7 @@ benefits over React Context:
 ## Example
 
 Using our example from [Lesson 2](/react-render-perf/lesson-02) we can replace the context
-by creating an `EventEmitter` singleton and using it directly in our components.
+by creating an <code>EventEmitter</code> singleton and using it directly in our components.
 
 ```tsx
 import {createContext, useContext, useState, useMemo} from "react";
@@ -68,10 +68,10 @@ const Parent = () => {
 
 While singletons are sometimes frowned upon because they can make testing more
 difficult in some languages, that isn't the case in JavaScript. It's easy to mock
-the singleton using `jest` if follow these guidelines:
+the singleton using <code>jest</code> if follow these guidelines:
 
 - Export the singleton from its own file.
-- If you have a custom class instead of using `EventEmitter` be sure to export
+- If you have a custom class instead of using <code>EventEmitter</code> be sure to export
   that as well so that you can use it when mocking the singleton.
 
 ## Exercise
