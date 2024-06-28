@@ -19,7 +19,7 @@ prevent them from re-rendering in response to props changes.
 
 ## Example
 
-Consider `LargeComponent` below. Clicking on either of the buttons will cause
+Consider <code>LargeComponent</code> below. Clicking on either of the buttons will cause
 the whole component to re-render.
 
 ```tsx
@@ -55,7 +55,7 @@ const LargeComponent = () => {
 }
 ```
 
-Extracting components `Foo` and `Bar` allows those components to update and
+Extracting components <code>Foo</code> and <code>Bar</code> allows those components to update and
 re-render indepedently of each other.
 
 ```tsx
@@ -104,7 +104,7 @@ const ParentComponent = () => {
 
 ## Notes
 
-- If there are still other things left in the `ParentComponent` that could
+- If there are still other things left in the <code>ParentComponent</code> that could
   trigger a re-render, you may want to memoize some or all of the children components.
 - Splitting up components has the added benefit of making the components easier
   to test. You can even mock the child components when testing the parent component.
@@ -113,7 +113,7 @@ const ParentComponent = () => {
 
 1. Use the profiler in React dev tools to measure the render performance of the code 
    in the "exercise" folder.
-2. Split `LargeComponent` in the exercise/ folder into a `Parent` component and
+2. Split <code>LargeComponent</code> in the exercise/ folder into a <code>Parent</code> component and
    multiple child components.
 3. Memoize components as necessary to address remaining render performance issues.
 4. Use the profiler in React dev tools to measure the render performance again.
@@ -122,8 +122,8 @@ const ParentComponent = () => {
 
 The following pattern can be quite useful when writing jest tests for large components
 that render a number of subcomponents.  The subcomponents can be mocked with module
-mocks to return simple strings that are easy to find using `@testing-library/react`'s 
-`screen.findByText()`.
+mocks to return simple strings that are easy to find using <code>@testing-library/react</code>'s 
+<code>screen.findByText()</code>.
 
 ```ts
 import {render, screen} from "@testing-library/react";
@@ -169,4 +169,4 @@ describe("Parent", () => {
 });
 ```
 
-NOTE: The extra `{}` in the call to `toHaveBeenCalledWith` is necessary.
+NOTE: The extra <code>{}</code> in the call to <code>toHaveBeenCalledWith</code> is necessary.
