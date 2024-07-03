@@ -1,9 +1,9 @@
-import {useState} from "react";
+import * as React from "react";
 
-import {ChildComponent} from "./child";
+import ChildComponent from "./child";
 
 export default function Exercise1() {
-    const [count, setCount] = useState(0);
+    const [count, setCount] = React.useState(0);
     const handleClick = () => {
         setCount((count) => count + 1);
     };

@@ -1,10 +1,10 @@
-import {useState, useCallback} from "react";
+import * as React from "react";
 
-import {ChildComponent} from "../solution/child";
+import ChildComponent from "../solution/child";
 
 export default function Solution1() {
-    const [count, setCount] = useState(0);
-    const handleClick = useCallback(() => {
+    const [count, setCount] = React.useState(0);
+    const handleClick = React.useCallback(() => {
         setCount((count) => count + 1);
     }, []);
     const circle = {

@@ -13,7 +13,7 @@ export default function Page() {
         <div className={styles.container}>
             <div className={styles.header}>
                 <Link to="/react-render-perf">Home</Link>
-                <h1>01 - Memoizing Expensive Components</h1>
+                <h1>01 - Memoizing Expensive Functional Components</h1>
             </div>
             <div className={styles.column}>
                 <Content components={{code}} />

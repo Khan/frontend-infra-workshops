@@ -6,7 +6,7 @@ type Props = {
     onClick: () => void;
 };
 
-export function ChildComponent({circle, onClick}: Props) {
+export default function ChildComponent({circle, onClick}: Props) {
     return (
         <div>
             <h1>Child Component</h1>

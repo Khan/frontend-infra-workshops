@@ -1,6 +1,6 @@
 import {BrowserRouter, Route} from "react-router-dom";
 
-import TableOfContents from "./index.mdx";
+import TableOfContents from "./index";
 import Lesson01 from "./lesson-01/index";
 import Lesson02 from "./lesson-02/index";
 import Lesson03 from "./lesson-03/index";

@@ -1,6 +1,11 @@
-Memoization can be used to avoid unnecessary renders. This is most useful when
-the component itself is expensive to render (e.g. the <code>MathJax</code> component in
-webapp) or it renders a lot of descedent components.
+<em>This lesson is focused on memoization of function components.  If you need to memoize a 
+class-based component you can define the <code>shouldComponentUpdate(nextProps, nextState, nextContext)</code>
+method in your class, see https://react.dev/reference/react/Component#shouldcomponentupdate for details.</em>
+
+Memoization of components can be used to avoid unnecessary renders by not re-rendering the
+component if the props haven't changed. This is most useful when the component itself is 
+expensive to render (e.g. the <code>MathJax</code> component in webapp) or it renders a 
+lot of descedent components.
 
 Memoization works by saving the rendered output of the component based on the
 props that are being passed in. Often times props will appear to have changed
@@ -8,12 +13,13 @@ when their actual values haven't. In JavaScript, two objects with the same
 properties are considered different objects. Similarly, two functions with the
 same implementation are considered differen objects.
 
-In order for memoization to have the desired benefit, we don't want the
-component to rerender if there are only superficial changes to props.
+<code>React.memo(Component, arePropsEqual?)</code> is used to memoize components.  If
+<code>arePropsEqual</code> isn't provided it does a shallow comparison of props and as 
+such isn't able to determine when a prop that's an object or function are equal or not. 
+In order for memoization to have the maximum benefit we need some way to determine if
+objects have the same contents and if callback props haven't changed.
 
-<code>React.memo(Component, arePropsEqual?)</code> by default does a shallow comparison of
-props and as such isn't able to determine when a prop that's an object or function
-is the same or not. We can pass a custom <code>arePropsEqual</code> function to override
+We can pass a custom <code>arePropsEqual</code> function to override
 that behavior. To keep things simple we use a third-party library called
 <code>react-fast-compare</code> which provides a function that does a deep comparison of
 objects.
@@ -82,22 +88,41 @@ const ParentComponent = (props: Props) => {
 }
 ```
 
-If the <code>ParentComponent</code> is a class-based component, there is no need to memoize
-function props that are pre-bound methods. This is because the method never changes
-for the component instance. If the prop is an inline function though, e.g.
-<code>onClick=\{() => \{ ... \}\}</code> it should be converted to a pre-bound method, see the
-example below.
+## Parent is a class-based component
 
+If the <code>ParentComponent</code> is a class-based component, functions passed as props
+to child components should be pre-bound methods. A pre-bound method never changes for the 
+lifetime of component instance. If the prop is an inline function though, e.g.
+<code>onClick=\{() => \{ ... \}\}</code> a new version of the function will be created
+each time the component is rendered.  Inline functions being passed as props should be
+converted to pre-bound methods as shown below.
+
+**BEFORE**
 ```ts
-import ChildComponent from "./my-component";
+class ParentComponent extends React.Component<Props, State> {
+    componentDidMount() {
+        fetch(QUERY).then((result) => {
+            this.setState({result});
+        });
+    }
 
-type Props = {
-    user: {name: string, id: string},
-};
-type State = {
-    result?: Result<typeof QUERY>,
+    render() {
+        return <ChildComponent 
+            user={user}
+            // A new function will be pass to `onClick` each time
+            // `ParentComponent` is rendered.
+            onClick={() => {
+                if (this.result?.data) {
+                    // do something with the data
+                }
+            }}
+        />
+    }
 }
+```
 
+**AFTER**
+```ts
 class ParentComponent extends React.Component<Props, State> {
     componentDidMount() {
         fetch(QUERY).then((result) => {
@@ -113,7 +138,10 @@ class ParentComponent extends React.Component<Props, State> {
     }
 
     render() {
-        return <ChildComponent user={user} onClick={handleClick}>
+        return <ChildComponent 
+            user={user}
+            onClick={this.handleClick}
+        />
     }
 }
 ```
