@@ -1,21 +1,19 @@
 import {useState, memo} from "react";
 
-import {fib} from "../../shared/fib";
+import Fib from "./fib";
 
 type Props = {
     n: number;
     color: string;
 };
 
-export const Circle = memo(({n, color}: Props) => {
+export default memo(function Circle({n, color}: Props) {
     const [count, setCount] = useState(0);
 
     return (
         <>
             <h2>Circle</h2>
-            <p>
-                fib({n}) = {fib(n)}
-            </p>
+            <Fib n={n} />
             <button onClick={() => setCount((count) => count + 1)}>
                 Click me! ({count})
             </button>

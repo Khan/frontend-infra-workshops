@@ -3,7 +3,7 @@ import {useContext, useState} from "react";
 import Grid from "./grid";
 import {ColorPickerContext} from "./color-picker-context";
 
-export function ColorPicker() {
+export default function ColorPicker() {
     const [color, setColor] = useState<string | undefined>(undefined);
     const colorPickerEventEmitter = useContext(ColorPickerContext)!;
     colorPickerEventEmitter.onSelectedColorChange(setColor);

@@ -8,7 +8,7 @@ type Props = {
     size: number;
 };
 
-export function Swatch({color, size}: Props) {
+export default function Swatch({color, size}: Props) {
     const {setColor, color: selectedColor} = useContext(ColorPickerContext)!;
 
     const isSelected =

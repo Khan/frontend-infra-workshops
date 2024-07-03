@@ -4,7 +4,7 @@ import {fib} from "../../shared/fib";
 
 type Shape = "circle" | "triangle" | "square";
 
-export function LargeComponent() {
+export default function LargeComponent() {
     const [selectedShape, setSelectedShape] = useState("circle");
     const [selectedColor, setSelectedColor] = useState("red");
     const [colors, setColors] = useState({

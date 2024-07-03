@@ -1,7 +1,7 @@
 import {ReactElement, memo} from "react";
 import arePropsEqual from "react-fast-compare";
 
-import {Gradient} from "./gradient";
+import Gradient from "./gradient";
 import {Color, lerpColor, toCssColor} from "../../shared/color";
 
 type Props = {

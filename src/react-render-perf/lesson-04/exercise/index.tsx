@@ -1,4 +1,4 @@
-import {LargeComponent} from "./large-component";
+import LargeComponent from "./large-component";
 
 export default function Exercise4() {
     return (

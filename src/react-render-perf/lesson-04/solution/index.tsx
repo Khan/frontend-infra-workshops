@@ -1,4 +1,4 @@
-import {ParentComponent} from "./parent-component";
+import ParentComponent from "./parent-component";
 
 export default function Solution4() {
     return (
