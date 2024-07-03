@@ -1,7 +1,8 @@
-React Context is useful for sharing data with its descendent components. When
-changes are made to the context, this causes the context and all of its
-descendents to be re-rendered. If the number of descendents is large, this can
-result in poor rendering performance.
+React Context is useful for sharing data with its descendent components without
+having to perform prop-drilling (passing props down through several layers of
+components). When changes are made to the context, this causes the context and all
+of its descendents to be re-rendered. If the number of descendents is large, this 
+can result in poor rendering performance.
 
 In order to avoid re-rendering all of the descendents we'd like only those
 components using the context to re-render.  Ideally, they should only re-render
@@ -12,27 +13,27 @@ re-render both child components of the context even though only one of them
 needs to be updated.
 
 ```tsx filename="index.tsx"
-import {createContext, useContext, useState} from "react";
+import * as React from "react";
 
 type FooBar = {
     foo: number;
     bar: number;
 };
 
-const FooBarContext = createContext<FooBar>({foo: 0, bar: 0});
+const FooBarContext = React.createContext<FooBar>({foo: 0, bar: 0});
 
 const Foo = () => {
-    const {foo} = useContext(FooBarContext);
+    const {foo} = React.useContext(FooBarContext);
     return <h1>foo = {foo}</h1>;
 };
 
 const Bar = () => {
-    const {bar} = useContext(FooBarContext);
+    const {bar} = React.useContext(FooBarContext);
     return <h1>bar = {bar}</h1>;
 };
 
 const Parent = () => {
-    const [value, setValue] = useState<FooBar>({foo: 0, bar: 0});
+    const [value, setValue] = React.useState<FooBar>({foo: 0, bar: 0});
     const incrementFoo = () => setValue(fb => {...fb, foo: fb.foo + 1});
     const incrementBar = () => setValue(fb => {...fb, bar: fb.bar + 1});
     <>
@@ -56,31 +57,37 @@ data they care about. The parent component will emit the appropriate event when
 increment the values for <code>foo</code> and <code>bar</code>.
 
 ```tsx
-import {createContext, useContext, useState, useMemo} from "react";
+import * as React from "react";
 import EventEmitter from "eventemitter3";
 
-const FooBarContext = createContext<EventEmitter | null>(null);
+const FooBarContext = React.createContext<EventEmitter | null>(null);
 
 const Foo = () => {
-    const emitter = useContext(FooBarContext);
-    const [foo, setFoo] = useState<number>(0);
-    emitter?.on("foo", setFoo);
+    const emitter = React.useContext(FooBarContext);
+    const [foo, setFoo] = React.useState<number>(0);
+    React.useEffect(() => {
+        emitter?.on("foo", setFoo);
+        return () => emitter?.off("foo", setFoo);
+    }, []);
 
     return <h1>foo = {foo}</h1>;
 };
 
 const Bar = () => {
-    const emitter = useContext(FooBarContext);
-    const [bar, setBar] = useState<number>(0);
-    emitter?.on("bar", setBar);
+    const emitter = React.useContext(FooBarContext);
+    const [bar, setBar] = React.useState<number>(0);
+    React.useEffect(() => {
+        emitter?.on("bar", setBar);
+        return () => emitter?.off("bar", setBar);
+    });
 
     return <h1>bar = {bar}</h1>;
 };
 
 const Parent = () => {
-    const [foo, setFoo] = useState<number>(0);
-    const [bar, setBar] = useState<number>(0);
-    const emitter = useMemo(() => new EventEmitter(), []);
+    const [foo, setFoo] = React.useState<number>(0);
+    const [bar, setBar] = React.useState<number>(0);
+    const emitter = React.useMemo(() => new EventEmitter(), []);
 
     const incrementFoo = () => {
         emitter.emit("foo", foo + 1);
@@ -109,25 +116,43 @@ need to memoize <code>Foo</code> and <code>Bar</code> themselves. Thankfully the
 props so this is trivial to do.
 
 ```tsx
-import {createContext, useContext, useState, memo} from "react";
+import * as React from "react";
 import arePropsEqual from "react-fast-compare";
 
-const Foo = memo(() => {
-    const emitter = useContext(FooBarContext);
-    const [foo, setFoo] = useState<number>(0);
+const Foo = React.memo(() => {
+    const emitter = React.useContext(FooBarContext);
+    const [foo, setFoo] = React.useState<number>(0);
     emitter?.on("foo", setFoo);
 
     return <h1>foo = {foo}</h1>;
 }, arePropsEqual);
 
-const Bar = memo(() => {
-    const emitter = useContext(FooBarContext);
-    const [bar, setBar] = useState<number>(0);
+const Bar = React.memo(() => {
+    const emitter = React.useContext(FooBarContext);
+    const [bar, setBar] = React.useState<number>(0);
     emitter?.on("bar", setBar);
 
     return <h1>bar = {bar}</h1>;
 }, arePropsEqual);
 ```
+
+## Notes
+
+- The example above shows the <code>Parent</code> component creating the event emitter.  This is
+  only necessary if <code>Parent</code> was being used in multiple places and we didn't want its
+  descendents sharing the same event emitter.  If there's only a single instance of
+  <code>Parent</code> the event emitter could be created outside of the component and could be
+  used to initialize the context.  This would result in the context value always being
+  defined and we wouldn't need to use optional chaining when accessing properties on
+  the <code>emitter</code> we get from the context.
+- Why not just use <code>redux</code> for prop-drilling?  Unfortunately, it has the same issues
+  as the naive use of context shown in the original code above.  That being said, the context +
+  event emitter pattern isn't great either because it's a pattern as opposed to a library.  In
+  the long term I think we should evaluate possible replaces for <code>redux</code> that don't
+  have this preformance issue like <code>jotai</code>, <code>zustand</code>, or <code>recoil.js</code>.
+- <code>React.useMemo(callback)</code> and <code>React.memo(Component, arePropsEqual?)</code> are
+  both use to memoize things.  The former is used for memoizing computations _within_ a functional
+  component while the latter is used for memoizing functional components themselves.
 
 ## Exercise
 
