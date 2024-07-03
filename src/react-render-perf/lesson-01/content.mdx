@@ -1,5 +1,5 @@
 Memoization can be used to avoid unnecessary renders. This is most useful when
-the component itself is expensive to render (e.g. the `MathJax` component in
+the component itself is expensive to render (e.g. the <code>MathJax</code> component in
 webapp) or it renders a lot of descedent components.
 
 Memoization works by saving the rendered output of the component based on the
@@ -11,11 +11,11 @@ same implementation are considered differen objects.
 In order for memoization to have the desired benefit, we don't want the
 component to rerender if there are only superficial changes to props.
 
-`React.memo(Component, arePropsEqual?)` by default does a shallow comparison of
+<code>React.memo(Component, arePropsEqual?)</code> by default does a shallow comparison of
 props and as such isn't able to determine when a prop that's an object or function
-is the same or not. We can pass a custom `arePropsEqual` function to override
+is the same or not. We can pass a custom <code>arePropsEqual</code> function to override
 that behavior. To keep things simple we use a third-party library called
-`react-fast-compare` which provides a function that does a deep comparison of
+<code>react-fast-compare</code> which provides a function that does a deep comparison of
 objects.
 
 ```ts
@@ -34,7 +34,7 @@ export default React.memo(ChildComponent, arePropsEqual);
 ```
 
 There is a bit of a gotcha here when it comes to props that are functions.
-`react-fast-compare` cannot check if two functions are the same. Imagine the
+<code>react-fast-compare</code> cannot check if two functions are the same. Imagine the
 following scenario:
 
 ```ts
@@ -57,10 +57,10 @@ const ParentComponent = (props: Props) => {
 }
 ```
 
-Each time `ParentComponent` renders, a new copy of `handleClick` will be created
-even if the `result` from `useQuery` isn't ready yet. We only want this function
-to treated as a new function when `result` changes. React provides a hook called
-`useCallback` which does exactly that by memoizing the function.
+Each time <code>ParentComponent</code> renders, a new copy of <code>handleClick</code> will be created
+even if the <code>result</code> from <code>useQuery</code> isn't ready yet. We only want this function
+to treated as a new function when <code>result</code> changes. React provides a hook called
+<code>useCallback</code> which does exactly that by memoizing the function.
 
 ```ts
 import ChildComponent from "./my-component";
@@ -82,10 +82,10 @@ const ParentComponent = (props: Props) => {
 }
 ```
 
-If the `ParentComponent` is a class-based component, there is no need to memoize
+If the <code>ParentComponent</code> is a class-based component, there is no need to memoize
 function props that are pre-bound methods. This is because the method never changes
 for the component instance. If the prop is an inline function though, e.g.
-`onClick={() => { ... }}` it should be converted to a pre-bound method, see the
+<code>onClick=\{() => \{ ... \}\}</code> it should be converted to a pre-bound method, see the
 example below.
 
 ```ts
@@ -131,5 +131,5 @@ what to memoize.
 ## Exercise
 
 1. Use the profiler in React dev tools to measure the render performance of the code in the "exercise" folder.
-2. Update the code in the "exercise" folder memoize the `Child` component to avoid rerender this component.
+2. Update the code in the "exercise" folder memoize the <code>Child</code> component to avoid rerender this component.
 3. Use the profiler in React dev tools to measure the render performance again
