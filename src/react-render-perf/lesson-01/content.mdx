@@ -109,7 +109,7 @@ class ParentComponent extends React.Component<Props, State> {
     render() {
         return <ChildComponent 
             user={user}
-            // A new function will be pass to `onClick` each time
+            // A new function will be passed to `onClick` each time
             // `ParentComponent` is rendered.
             onClick={() => {
                 if (this.result?.data) {
