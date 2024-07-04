@@ -1,12 +1,12 @@
 import {useState} from "react";
 
-import {Circle} from "./circle";
-import {Square} from "./square";
-import {Triangle} from "./triangle";
+import Circle from "./circle";
+import Square from "./square";
+import Triangle from "./triangle";
 
 type Shape = "circle" | "triangle" | "square";
 
-export function ParentComponent() {
+export default function ParentComponent() {
     const [selectedShape, setSelectedShape] = useState("circle");
     const [selectedColor, setSelectedColor] = useState("red");
     const [colors, setColors] = useState({

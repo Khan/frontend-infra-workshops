@@ -1,10 +1,10 @@
 import {useState} from "react";
 
-import {Grid} from "./grid";
+import Grid from "./grid";
 import {ColorPickerContext} from "./color-picker-context";
 import {Color, toCssColor} from "../../shared/color";
 
-export function ColorPicker() {
+export default function ColorPicker() {
     const [color, setColor] = useState<Color | undefined>(undefined);
 
     return (

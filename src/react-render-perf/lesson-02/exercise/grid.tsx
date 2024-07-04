@@ -1,6 +1,6 @@
 import {ReactElement} from "react";
 
-import {Gradient} from "./gradient";
+import Gradient from "./gradient";
 import {Color, lerpColor, toCssColor} from "../../shared/color";
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
     steps: number;
 };
 
-export function Grid({
+export default function Grid({
     topLeft,
     topRight,
     bottomLeft,

@@ -1,6 +1,6 @@
 import {useMemo} from "react";
 
-import {ColorPicker} from "./color-picker";
+import ColorPicker from "./color-picker";
 import {ColorPickerEventEmitter} from "./color-picker-event-emitter";
 import {ColorPickerContext} from "./color-picker-context";
 

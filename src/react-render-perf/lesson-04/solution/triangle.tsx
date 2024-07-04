@@ -1,21 +1,19 @@
 import {useState, memo} from "react";
 
-import {fib} from "../../shared/fib";
+import Fib from "./fib";
 
 type Props = {
     n: number;
     color: string;
 };
 
-export const Triangle = memo(({n, color}: Props) => {
+export default memo(function Triangle({n, color}: Props) {
     const [count, setCount] = useState(0);
 
     return (
         <>
             <h2>Triangle</h2>
-            <p>
-                fib({n}) = {fib(n)}
-            </p>
+            <Fib n={n} />
             <button onClick={() => setCount((count) => count + 1)}>
                 Click me! ({count})
             </button>

@@ -1,4 +1,4 @@
-import {ColorPicker} from "./color-picker";
+import ColorPicker from "./color-picker";
 
 export default function Solution3() {
     return (
