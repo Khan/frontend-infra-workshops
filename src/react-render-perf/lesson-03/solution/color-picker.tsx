@@ -1,11 +1,13 @@
-import {useState} from "react";
+import * as React from "react";
 
 import Grid from "./grid";
 import {colorPickerEventEmitter} from "./color-picker-event-emitter";
 
 export default function ColorPicker() {
-    const [color, setColor] = useState<string | undefined>(undefined);
-    colorPickerEventEmitter.onSelectedColorChange(setColor);
+    const [color, setColor] = React.useState<string | undefined>(undefined);
+    React.useEffect(() => {
+        return colorPickerEventEmitter.onSelectedColorChange(setColor);
+    }, []);
 
     return (
         <div>

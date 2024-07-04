@@ -10,6 +10,10 @@ export default function Solution3() {
     return (
         <div>
             <h1>Exercise 3: Avoid Using Context</h1>
+            <p>
+                In this exercise, we want you to remove the context and use the
+                event emitter directly.
+            </p>
             <ColorPickerContext.Provider value={emitter}>
                 <ColorPicker />
             </ColorPickerContext.Provider>
