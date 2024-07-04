@@ -19,6 +19,9 @@ export default function Page() {
                 <Content components={{code}} />
             </div>
             <div className={styles.column}>
+                <h3>
+                    ⚠️ HMR may not work, please reload after making changes ⚠️
+                </h3>
                 <Tabs tabs={{exercise: Exercise, solution: Solution}} />
             </div>
         </div>
