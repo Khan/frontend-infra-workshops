@@ -1,0 +1,47 @@
+import {Link} from "react-router-dom";
+
+import profilerSettingsUrl from "./images/profiler-settings.png"
+import whatChangedUrl from "./images/what-changed.png"
+import highlightRerenders from "./images/highlight-rerenders.png"
+
+# React Render Perf
+
+The purpose of this workshop is to learn about common issues that can result
+react renders taking longer than expected.
+
+## Preliminaries
+
+This tutorial assumes that you have the [React Developer Tools Chrome](https://chromewebstore.google.com/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?pli=1) extension installed. You will need
+to make use of the "Profiler" tab in the React DevTools to measure performance
+of the components in the exercises. For information on how to use "Profiler"
+tab see this [blog post](https://legacy.reactjs.org/blog/2018/09/10/introducing-the-react-profiler.html).
+
+<em>WARNING: The blog post is quite old and parts of the UI no longer exist</em>
+
+### Configuring React DevTools
+
+There are a couple of very helpful settings for React DevTools that you should turn on
+before starting the lessons.  Once you've installed the React DevTools, click on the "⚛️ Profiler"
+tab in the Chrome DevTools.  Then click on the gear icon below the "⚛️ Profiler" tab, this
+will open up the React DevTools setting dialog.  Select the "General" tab in the dialog and
+enable "Highlight updates when components render".  Whenever a component is rendered, it
+will appear with a cyan outline around it.
+
+<img src={highlightRerenders} width="500" />
+
+Switch to the "Profiler" tab in the dialog and enable "Record why each component rendered while profiling".
+
+<img src={profilerSettingsUrl} width="500" />
+
+After you capture a profile, you'll be able to see what triggered a component to re-render
+by clicking on the component in the flame chart.  You can also click on the different times
+a component was rendered at to see what triggered different renders of the same component.
+
+<img src={whatChangedUrl} width="500" />
+
+## Lessons
+
+1. <Link to="/react-render-perf/lesson-01">Memoizing Expensive Functional Components</Link>
+2. <Link to="/react-render-perf/lesson-02">Prevent React.Context from re-rendering the whole tree</Link>
+3. <Link to="/react-render-perf/lesson-03">Avoid using React.Context at all</Link>
+4. <Link to="/react-render-perf/lesson-04">Minimizing re-renders by splitting up large components</Link>
