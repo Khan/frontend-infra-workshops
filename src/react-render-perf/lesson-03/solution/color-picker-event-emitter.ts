@@ -11,8 +11,11 @@ class ColorPickerEventEmitter extends EventEmitter {
         return () => this.off(color, callback);
     }
 
-    public onSelectedColorChange(callback: (selectedColor: string) => void) {
+    public onSelectedColorChange(
+        callback: (selectedColor: string) => void,
+    ): () => void {
         this.on("any", callback);
+        return () => this.off("any", callback);
     }
 
     public selectColor(color: string) {

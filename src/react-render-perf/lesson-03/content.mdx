@@ -21,21 +21,27 @@ Using our example from [Lesson 2](/react-render-perf/lesson-02) we can replace t
 by creating an <code>EventEmitter</code> singleton and using it directly in our components.
 
 ```tsx
-import {createContext, useContext, useState, useMemo} from "react";
+import * as React from "react";
 import EventEmitter from "eventemitter3";
 
 const emitterSingleton = new EventEmitter();
 
 const Foo = () => {
     const [foo, setFoo] = useState<number>(0);
-    emitterSingleton.on("foo", setFoo);
+    React.useEffect(() => {
+      emitterSingleton.on("foo", setFoo);
+      return () => emitterSingleton.off("foo", setFoo);
+    });
 
     return <h1>foo = {foo}</h1>;
 };
 
 const Bar = () => {
     const [bar, setBar] = useState<number>(0);
-    emitterSingleton.on("bar", setBar);
+    React.useEffect(() => {
+      emitterSingleton.on("bar", setBar);
+      return () => emitterSingleton.off("bar", setBar);
+    });
 
     return <h1>bar = {bar}</h1>;
 };
@@ -66,13 +72,23 @@ const Parent = () => {
 
 ## Notes
 
+### Testing
 While singletons are sometimes frowned upon because they can make testing more
 difficult in some languages, that isn't the case in JavaScript. It's easy to mock
 the singleton using <code>jest</code> if follow these guidelines:
 
-- Export the singleton from its own file.
+- Export the singleton from its own file.  TODO(kevinb): provide an example of how to
+  mock the singleton.
 - If you have a custom class instead of using <code>EventEmitter</code> be sure to export
   that as well so that you can use it when mocking the singleton.
+
+### State
+
+Using an event emitter means that we're responsible for updating the state. In the 
+example above, we've chosen to do that in the <code>Parent</code> component.  We
+could've also sub-classed <code>EventEmitter</code> and made it responsible for managing
+state. Ideally though, I think we'll probably want to adopt a state management library
+like <code>jotai</code>, <code>zustand</code>, or <code>recoil.js</code>.
 
 ## Exercise
 

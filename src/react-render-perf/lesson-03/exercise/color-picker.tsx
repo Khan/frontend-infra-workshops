@@ -1,12 +1,14 @@
-import {useContext, useState} from "react";
+import * as React from "react";
 
 import Grid from "./grid";
 import {ColorPickerContext} from "./color-picker-context";
 
 export default function ColorPicker() {
-    const [color, setColor] = useState<string | undefined>(undefined);
-    const colorPickerEventEmitter = useContext(ColorPickerContext)!;
-    colorPickerEventEmitter.onSelectedColorChange(setColor);
+    const [color, setColor] = React.useState<string | undefined>(undefined);
+    const colorPickerEventEmitter = React.useContext(ColorPickerContext)!;
+    React.useEffect(() => {
+        return colorPickerEventEmitter.onSelectedColorChange(setColor);
+    }, []);
 
     return (
         <div>
