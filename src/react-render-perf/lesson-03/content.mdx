@@ -77,10 +77,52 @@ While singletons are sometimes frowned upon because they can make testing more
 difficult in some languages, that isn't the case in JavaScript. It's easy to mock
 the singleton using <code>jest</code> if follow these guidelines:
 
-- Export the singleton from its own file.  TODO(kevinb): provide an example of how to
-  mock the singleton.
 - If you have a custom class instead of using <code>EventEmitter</code> be sure to export
   that as well so that you can use it when mocking the singleton.
+- Instead of exporting the singleton directly, export a function that returns the
+  singleton.  This will allow you to mock the singleton on a per-test basis.
+
+```ts
+// my-awesome-event-emitter.ts
+export class MyAwesomeEventEmitter {
+  ...
+}
+
+// This is our singleton. Note that it isn't being exported.
+// Instead, we want people to use the function below to get
+// the singleton.
+const myAwesomeEventEmitter = new MyAwesomeEventEmitter();
+
+export const getMyAwesomeEventEmitter = () => myAwesomeEventEmitter;
+```
+
+When writing tests you import both the class and the singleton getter into your test
+file to help with mocking.
+
+```ts
+// foo.test.ts
+import * as MyAwesomeEventEmitter from "../my-awesome-event-emitter"
+
+describe("Foo", () => {
+  it("should function as expected", () => {
+    // Arrange
+    const mockEmitter = new MyAwesomeEventEmitter();
+    // modify the state of mockEmitter if necessary.
+    jest.spyOn(
+      MyAwesomeEventEmitter, "getMyAwesomeEventEmitter"
+    ).mockReturnValue(
+      mockEmitter,
+    );
+    // Now the code under test will be using `mockEmitter` instead of
+    // the `myAwesomeEventEmitter` that we created in my-awesome-event-emitter.ts.
+
+    // Act
+    // ...
+
+    // Assert
+    // ...
+  });
+});
 
 ### State
 
